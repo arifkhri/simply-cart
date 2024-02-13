@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import * as z from "zod"
 
 import CheckoutForm from "@/components/CheckoutForm";
+import ShippingAmount from "@/components/CheckoutForm/ShippingAmount";
 import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/Button";
@@ -102,10 +103,7 @@ const CheckoutPage = () => {
 
               {/* summary */}
               <div className="border-t border-dashed pt-4 pb-10">
-                <div className="flex justify-between">
-                  <p className="text-sm">Biaya Pengiriman</p>
-                  <p className="font-bold text-sm">{currency('Rp ', '0')}</p>
-                </div>
+                <ShippingAmount />
 
                 <div className="flex justify-between">
                   <p className="text-sm">Sub Total</p>
