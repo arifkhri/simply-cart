@@ -1,69 +1,31 @@
-import { PaperPlaneIcon } from '@radix-ui/react-icons';
 import Head from "next/head";
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from "react";
+import { useQuery } from 'react-query';
 
-import ChatRoom from "@/components/ChatRoom";
-import { Button } from "@/components/ui/Button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/Dialog";
-import { Input } from "@/components/ui/Input";
+import Header from "@/components/Header";
+import ProductCard from "@/components/ProductCard";
+import Loading from "@/components/ui/Loading";
 
 import { siteConfig } from "@/constant/config";
-import useLocalData from '@/hooks/useLocalData';
+import product from '@/integrations/product';
 
-import { IConversationData } from '../../global';
+import { IList, IProduct } from '../../global';
 
 const PortfolioPage = () => {
-  const { store: { showConfigModal, conversationData }, dispatch } = useLocalData();
-  const [messageValue, setMessageValue] = useState('');
-  const [dialogConfig, setDialogConfig] = useState(false);
 
-  const { push: navigate } = useRouter();
+  const { data = { products: [] }, isLoading } = useQuery({
+    queryKey: ['productList'],
+    queryFn: async () => {
+      const data = await product.getList<IList<IProduct>>();
 
-  const redirectToConfig = () => {
-    navigate('config');
-  }
+      data.products = data.products.map((product) => ({
+        ...product,
+        weight: Math.round(Math.random() * 10000), // weight on gram uom
+        price: product.price * 1000 // make idr price
+      }))
 
-  const sendMessage = (e) => {
-    const newConversation = conversationData;
-
-    if (e.key === 'Enter' || e.key === 'Click') {
-      const messageData: IConversationData = {
-        type: 'user',
-        message: messageValue
-      };
-
-      newConversation.push(messageData);
-      dispatch({
-        type: 'update',
-        name: 'conversationData',
-        value: newConversation
-      });
-
-      setMessageValue('');
-    }
-  }
-
-  const onClearChat = () => {
-    dispatch({
-      type: 'update',
-      name: 'conversationData',
-      value: []
-    });
-  }
-
-  useEffect(() => {
-    if (showConfigModal) {
-      setDialogConfig(true);
-    }
-  }, [showConfigModal])
+      return data
+    },
+  });
 
   return (
     <>
@@ -73,52 +35,45 @@ const PortfolioPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="h-screen relative pt-6 px-2 pb-16 lg:grid lg:max-w-7xl lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:pb-20 lg:pt-5">
-        <div className="w-full flex justify-center items-center flex-col mb-20">
-          <div className="flex justify-center items-center">
-            <img src="/images/logo.png" alt="simple-cart-logo" className="w-20" />
-            <h3 className="text-base ps-2">Simple cart.</h3>
-          </div>
-          <div className="flex">
-            <Button className="border-gray-800 mr-2 border-2 p-1 text-sm" size="sm" onClick={() => navigate('/config')}>
-              Konfigurasi Pesan Bot
-            </Button>
+      <div className="h-screen pt-6 px-2 pb-16 lg:grid lg:max-w-7xl lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:pt-5">
+        <Header />
 
-            <Button className="border-gray-800 border-2 p-1 text-sm" size="sm" variant="secondary" onClick={() => onClearChat()}>
-              Clear Chat
-            </Button>
-          </div>
+        <div className="pt-5">
+          {
+            isLoading ? (
+              <div>
+                <Loading />
+              </div>
+            ) : (
+              data.products.length > 0 ? (
+                <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5">
+                  {
+                    data.products.map((product, index) => (
+                      <ProductCard
+                        key={index}
+                        showCheckoutBtn={true}
+                        id={product.id.toString()}
+                        title={product.title}
+                        thumbnail={product.thumbnail}
+                        price={product.price}
+                        description={product.description}
+                      />
+                    ))
+                  }
+
+                </div>
+              ) : (
+                <div className="flex-col border rounded p-3">
+                  <p className="text-center" style={{ whiteSpace: 'pre-line' }}>
+                    Belum ada data
+                  </p>
+                </div>
+              )
+            )
+          }
         </div>
 
-        {/* room chat */}
-        <ChatRoom />
-
-        {/* message input */}
-        <div className="flex absolute py-2 bg-white bottom-0 w-full pr-4 md:px-3">
-          <Input value={messageValue} onChange={(e) => setMessageValue(e.target.value)} placeholder="Tulis pesan disini.." className="rounded-r-none mb-2" onKeyPress={(e) => sendMessage(e)} />
-          <Button className="mb-2 rounded-l-none" size="icon" onClick={() => sendMessage({ key: 'Click' })}>
-            <PaperPlaneIcon />
-          </Button>
-        </div>
       </div>
-
-      <Dialog open={dialogConfig}>
-        <DialogContent className="sm:max-w-md">
-          <div>
-            <DialogHeader>
-              <DialogTitle>Hello :)</DialogTitle>
-              <DialogDescription>
-                Untuk memulai chat, tolong tambah config dulu ya.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter className="sm:justify-start mt-3">
-              <Button type="button" onClick={redirectToConfig}>
-                Tambah Config
-              </Button>
-            </DialogFooter>
-          </div>
-        </DialogContent>
-      </Dialog>
     </>
   )
 }

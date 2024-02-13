@@ -1,25 +1,8 @@
 export interface ILocalDataContext {
   store: {
-    showConfigModal: boolean;
-    configData: {
-      chatBotData: IMessageData[];
-    };
-    conversationData: IConversationData[];
+    data: any;
   };
   dispatch: any;
-}
-
-export interface IConfigForm extends IMessageData {
-  criteriaInput: string;
-}
-
-export interface IConversationData extends Pick<IMessageData, 'message'> {
-  type: 'user' | 'bot';
-}
-
-export interface IMessageData {
-  message: string;
-  criteria: string[];
 }
 
 export interface IModal {
@@ -53,4 +36,35 @@ export interface IProduct {
   category: string;
   thumbnail: string;
   images: string[];
+  [key: string]: any;
+}
+
+export interface IList<R> {
+  limit: number;
+  skip: number;
+  [key: string]: R[];
+  total: number;
+}
+
+export interface IRajaOnkirResponse<R> {
+  rajaongkir: {
+    query: any;
+    status: {
+        code: number;
+        description: string;
+    };
+    results: R[];
+  }
+}
+
+export interface IProvince {
+  province_id: string;
+  province: string;
+}
+
+export interface ICity extends IProvince {
+  city_id: number;
+  type: string;
+  city_name: string;
+  postal_code: number
 }

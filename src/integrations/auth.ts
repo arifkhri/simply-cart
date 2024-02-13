@@ -1,5 +1,5 @@
 
-import fetchClient from '@/lib/fetch';
+import fetchClient from '@/utils/fetch';
 
 
 const login = <P, R>(params?: any) => {
@@ -16,5 +16,6 @@ const getAuthorizationData = <R>(token: string) => {
 
   return get<R>('/auth/me', {headers});
 }
+const auth = { login, getAuthorizationData };
 
-export default { login, getAuthorizationData };
+export default  auth;

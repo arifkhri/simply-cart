@@ -2,7 +2,7 @@ import { Slot } from "@radix-ui/react-slot"
 import * as React from "react"
 import { Controller, FormProvider, useFormContext } from "react-hook-form";
 
-import { cn } from "@/lib/shadcnUI"
+import { cn } from "@/utils/shadcnUI"
 
 import { Label } from "./Label"
 import { BaseProps } from "../../../global";

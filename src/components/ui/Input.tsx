@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/lib/shadcnUI"
+import { cn } from "@/utils/shadcnUI"
 
 const Input = React.forwardRef(({ className, type, ...props }: React.InputHTMLAttributes<any>, ref: React.Ref<HTMLInputElement>) => {
   return (

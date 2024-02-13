@@ -1,8 +1,8 @@
 import { RequestInit } from "next/dist/server/web/spec-extension/request";
 
-const fetchClient = () => {
+const fetchClient = (defualtBaseUrl?: string) => {
 
-  const baseUrl = process.env.NEXT_PUBLIC_API;
+  const baseUrl = defualtBaseUrl ?? process.env.NEXT_PUBLIC_API;
 
   const authConfig = {
     headers: {
@@ -29,15 +29,22 @@ const fetchClient = () => {
     return `?${new URLSearchParams(newQuery).toString()}`;
   }
 
-  const post = <P, R>(url: string, payload: P): Promise<R> => {
+  const post = <P, R>(url: string, payload: P, defaultConfig: any = {}): Promise<R> => {
     const config: RequestInit = {
       method: 'POST',
       body: JSON.stringify(payload),
       ...authConfig,
+      ...defaultConfig
     };
 
     return fetch(`${baseUrl}${url}`, config)
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.status !== 200) {
+          return res;
+        } else {
+          return res.json()
+        }
+      })
       .then((res) => {
         return res;
       });

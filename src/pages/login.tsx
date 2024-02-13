@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/Input";
 
 import { siteConfig } from "@/constant/config";
 import auth from '@/integrations/auth';
-import cookie from '@/lib/cookie';
+import cookie from '@/utils/cookie';
 
 const LoginPage = () => {
   const { push: navigate } = useRouter();
@@ -31,10 +31,8 @@ const LoginPage = () => {
   });
 
   async function onSubmit(formValues) {
-    console.log('🚀 ~ formValues:', formValues);
     auth.login(formValues).then((response) => {
       cookie.set('utoken', JSON.stringify(response));
-    }).then(() => {
       navigate('/')
     }).catch(() => {
       toast('Email atau Password salah.');
@@ -74,7 +72,7 @@ const LoginPage = () => {
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
                       control={form.control}
-                      name="message"
+                      name="email"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-black">Email*</FormLabel>
@@ -88,7 +86,7 @@ const LoginPage = () => {
 
                     <FormField
                       control={form.control}
-                      name="message"
+                      name="password"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-black">Password*</FormLabel>

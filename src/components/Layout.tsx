@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
 
   return (
     <main>
-      <div className={`${font.className} mx-auto max-w-2xl overflow-hidden main h-screen`}>
+      <div className={`${font.className} mx-auto max-w-2xl main h-screen`}>
         {children}
       </div>
     </main>
