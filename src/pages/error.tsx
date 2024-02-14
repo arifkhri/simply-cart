@@ -16,7 +16,7 @@ export default function Error() {
         <section className="bg-white">
           <div className="layout flex min-h-screen flex-col items-center justify-center text-center text-black">
             <h1 className="my-3 text-2xl md:text-4xl">Sepertinya terjadi kesalahan yang tidak terduga :(</h1>
-            <Link href="/" className="text-white inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">Kembali</Link>
+            <Link href="/products" className="text-white inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">Kembali</Link>
           </div>
         </section>
       </main>

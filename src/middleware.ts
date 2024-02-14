@@ -7,8 +7,12 @@ export function middleware(request) {
 
   const destinationUrl = (url) => new URL(url, request.url);
 
+  if(nextPathname === '/') {
+    return NextResponse.redirect(destinationUrl('/products'));
+  }
 
-  if (['/checkout', '/'].includes(nextPathname) && !userIsLoggedIn) {
+
+  if (['/checkout', '/products'].includes(nextPathname) && !userIsLoggedIn) {
     return NextResponse.redirect(destinationUrl('/login'));
   }
 

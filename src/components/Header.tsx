@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <div className="w-full flex justify-between items-center">
-      <Link href="/">
+      <Link href="/products">
         <div className="flex justify-center items-center">
           <img src="/images/logo.png" alt="simple-cart-logo" className="w-20" />
           <h3 className="text-base ps-2">Simple cart.</h3>

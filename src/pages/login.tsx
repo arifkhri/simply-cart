@@ -36,7 +36,7 @@ const LoginPage = () => {
         toast('Email atau Password salah.');
       } else {
         cookie.set('utoken', JSON.stringify(response));
-        navigate('/')
+        navigate('/products')
       }
     }).catch(() => {
       toast('Email atau Password salah.');
