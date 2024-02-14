@@ -27,6 +27,7 @@ const ShippingAmount = ({ form, weight }) => {
     enabled: enableQuery
   });
 
+  console.log('🚀 ~ data:', data);
   useEffect(() => {
     if (city) {
       setEnableQuery(true);
