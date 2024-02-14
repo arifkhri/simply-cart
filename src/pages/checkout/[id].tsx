@@ -103,7 +103,7 @@ const CheckoutPage = () => {
 
               {/* summary */}
               <div className="border-t border-dashed pt-4 pb-10">
-                <ShippingAmount />
+                <ShippingAmount form={form} weight={data?.weight} />
 
                 <div className="flex justify-between">
                   <p className="text-sm">Sub Total</p>

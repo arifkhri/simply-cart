@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ExitIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 

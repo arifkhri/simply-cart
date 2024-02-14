@@ -68,3 +68,22 @@ export interface ICity extends IProvince {
   city_name: string;
   postal_code: number
 }
+
+
+export interface IShippingCostPayload {
+  origin: string;
+  destination: string;
+  weight: number;
+  courier: string;
+}
+
+export interface IShippingCostItem {
+  service: string;
+  description: string;
+  cost: {value: number, etd: string, note: string}[];
+}
+export interface IShippingCostResponse {
+  code: string;
+  name: string;
+  costs: IShippingCostItem[];
+}

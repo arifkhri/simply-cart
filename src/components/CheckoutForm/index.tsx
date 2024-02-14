@@ -31,7 +31,7 @@ const CheckoutForm = ({ form }) => {
             <FormItem className="w-full pe-2">
               <FormLabel className="text-black">Provinsi*</FormLabel>
               <FormControl>
-                <Province {...field} />
+                <Province {...field} form={form} />
               </FormControl>
               <FormMessage />
             </FormItem>

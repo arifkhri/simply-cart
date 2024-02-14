@@ -2,10 +2,10 @@
 import fetchClient from '@/utils/fetch';
 
 
-const login = <P, R>(params?: any) => {
+const login = <P, R>(payload: P) => {
   const { post } = fetchClient();
 
-  return post<P, R>('/auth/login', params);
+  return post<P, R>('/auth/login', JSON.stringify(payload));
 }
 
 const getAuthorizationData = <R>(token: string) => {

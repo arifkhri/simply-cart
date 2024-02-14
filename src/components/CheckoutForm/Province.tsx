@@ -9,11 +9,12 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue} from "../ui/Select";
+  SelectValue
+} from "../ui/Select";
 import { IProvince, IRajaOnkirResponse } from "../../../global";
 
 
-const Province = (props) => {
+const Province = ({ form, ...restProps }) => {
 
   const { data } = useQuery({
     queryKey: ['province'],
@@ -24,8 +25,13 @@ const Province = (props) => {
     }
   });
 
+  const handleSelect = (value) => {
+    form.setValue('province', value);
+    form.setValue('city', '');
+  }
+
   return (
-    <Select {...props}>
+    <Select {...restProps} onValueChange={(value) => handleSelect(value)}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Pilih Provinsi" />
       </SelectTrigger>
@@ -33,7 +39,7 @@ const Province = (props) => {
         <SelectGroup>
           <SelectLabel>Provinsi</SelectLabel>
           {
-            (data?.rajaongkir?.results || []).map(({province_id, province}) => (
+            (data?.rajaongkir?.results || []).map(({ province_id, province }) => (
               <SelectItem key={province_id} value={province_id}>{province}</SelectItem>
             ))
           }

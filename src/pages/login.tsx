@@ -18,20 +18,20 @@ const LoginPage = () => {
   const { push: navigate } = useRouter();
 
   const formSchema = z.object({
-    email: z.string().min(1, "Field wajib diisi"),
+    username: z.string().min(1, "Field wajib diisi"),
     password: z.string().min(1, "Field wajib diisi")
   });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: 'kminchelle',
+      username: 'kminchelle',
       password: '0lelplR',
     },
   });
 
   async function onSubmit(formValues) {
-    auth.login(formValues).then((response) => {
+    auth.login<{username: string, password: string}, any>(formValues).then((response) => {
       cookie.set('utoken', JSON.stringify(response));
       navigate('/')
     }).catch(() => {
@@ -72,7 +72,7 @@ const LoginPage = () => {
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="username"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-black">Email*</FormLabel>

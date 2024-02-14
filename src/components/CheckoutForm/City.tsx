@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 import address from "@/integrations/address";
@@ -14,6 +15,7 @@ import { ICity, IRajaOnkirResponse } from "../../../global";
 
 
 const City = ({form, ...restProps}) => {
+  const [enableQuery, setEnableQuery] = useState(false);
 
   const provinceId = form.watch('province');
 
@@ -22,19 +24,30 @@ const City = ({form, ...restProps}) => {
     queryFn: async () => {
       let data = await address.getCity<IRajaOnkirResponse<ICity>>(provinceId);
 
+      setEnableQuery(false);
       return data;
     },
-    enabled: !!provinceId
+    enabled: enableQuery
   });
 
+  useEffect(() => {
+    if(provinceId) {
+      setEnableQuery(true);
+    }
+  }, [provinceId]);
+
+  const handleSelect = (value) => {
+    form.setValue('city', value);
+  }
+
   return (
-    <Select {...restProps}>
+    <Select {...restProps} onValueChange={(value) => handleSelect(value)}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Pilih Provinsi" />
+        <SelectValue placeholder="Pilih Kota" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Provinsi</SelectLabel>
+          <SelectLabel>Kota</SelectLabel>
           {
             (data?.rajaongkir?.results || []).map(({city_id, city_name}) => (
               <SelectItem key={city_id} value={city_id.toString()}>{city_name}</SelectItem>
