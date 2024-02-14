@@ -12,7 +12,7 @@ export function middleware(request) {
   }
 
 
-  if (['/checkout', '/products'].includes(nextPathname) && !userIsLoggedIn) {
+  if (['/checkout', '/products'].some((prefix) => nextPathname.startsWith(prefix)) && !userIsLoggedIn) {
     return NextResponse.redirect(destinationUrl('/login'));
   }
 
