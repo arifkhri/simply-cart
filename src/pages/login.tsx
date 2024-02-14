@@ -32,8 +32,12 @@ const LoginPage = () => {
 
   async function onSubmit(formValues) {
     auth.login<{username: string, password: string}, any>(formValues).then((response) => {
-      cookie.set('utoken', JSON.stringify(response));
-      navigate('/')
+      if(response.message === 'Invalid credentials') {
+        toast('Email atau Password salah.');
+      } else {
+        cookie.set('utoken', JSON.stringify(response));
+        navigate('/')
+      }
     }).catch(() => {
       toast('Email atau Password salah.');
     });

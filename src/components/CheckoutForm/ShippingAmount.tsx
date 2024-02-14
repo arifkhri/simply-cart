@@ -35,16 +35,8 @@ const ShippingAmount = ({ form, weight }) => {
 
   return (
     <div className="flex justify-between">
-      {
-        (data as any)?.code !== 400 ? (
-          <>
-            <p className="text-sm">Biaya Pengiriman</p>
-            <p className="font-bold text-sm">{currency('Rp ', '0')}</p>
-          </>
-        ) : (
-          (data as any)?.description
-        )
-      }
+      <p className="text-sm">Biaya Pengiriman</p>
+      <p className="font-bold text-sm">{currency('Rp ', '0')}</p>
     </div>
   )
 }
