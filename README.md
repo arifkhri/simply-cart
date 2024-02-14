@@ -1,5 +1,5 @@
 # simply-cart
-simple product simply-cart with stack:
+Simply-cart adalah sebuah portofolio website yang mempunyai halaman list produk, login dan checkout.
 - ⚡️ Next.js 14
 - ⚛️ React 18
 - 📏 ESLint — Find and fix problems in your code, also will **auto sort** your imports
